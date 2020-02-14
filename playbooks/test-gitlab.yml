@@ -1,0 +1,24 @@
+---
+  - name: Cloning private Gitlab repository
+    hosts: all
+
+    tasks:
+      - block:
+        - name: Create temporary directory
+          tempfile:
+            state: directory
+            suffix: gitlab
+          register: tmpdir
+
+        - name: Clone Gitlab repository {{ gitlab_repo }}
+          git:
+            repo: "{{ gitlab_repo }}"
+            dest: "{{ tmpdir.path }}"
+
+        always:
+
+          - name: Delete temporary directory
+            file:
+              path: "{{ tmpdir.path }}"
+              state: absent
+            when: tmpdir.path is defined
