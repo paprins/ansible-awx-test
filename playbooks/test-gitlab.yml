@@ -13,6 +13,17 @@
         - debug:
             msg: ">> cloning to directory '{{tmpdir.path}}' "
 
+        - name: Ping execute
+          shell: "ping -c 1 -q -W 1 gitlab.bda.innogy.com"
+          register: command_output
+          ignore_errors: yes
+          no_log: true
+          changed_when: false
+
+        - name: Ping report
+          debug: 
+            msg: "{{ command_output.results }}"
+
         - name: Clone Gitlab repository {{ gitlab_repo }}
           git:
             repo: "https://{{ gitlab_user | urlencode }}:{{ gitlab_pwd | urlencode }}@{{ gitlab_repo }}"
