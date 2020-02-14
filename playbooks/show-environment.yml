@@ -1,0 +1,7 @@
+---
+  - name: Show environment (and other) variables
+    hosts: all
+
+    tasks:
+      - debug:
+          var: hostvars[inventory_hostname]
