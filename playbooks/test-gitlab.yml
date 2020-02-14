@@ -22,7 +22,7 @@
 
         - name: Ping report
           debug: 
-            msg: "{{ command_output.results }}"
+            msg: "{{ command_output }}"
 
         - name: Clone Gitlab repository {{ gitlab_repo }}
           git:
