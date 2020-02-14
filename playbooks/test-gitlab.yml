@@ -7,12 +7,15 @@
         - name: Create temporary directory
           tempfile:
             state: directory
-            suffix: gitlab
+            suffix: ".gitlab"
           register: tmpdir
+
+        - debug:
+            msg: ">> cloning to directory '{{tmpdir.path}}' "
 
         - name: Clone Gitlab repository {{ gitlab_repo }}
           git:
-            repo: "{{ gitlab_repo }}"
+            repo: "https://{{ gitlab_user | urlencode }}:{{ gitlab_pwd | urlencode }}@{{ gitlab_repo }}"
             dest: "{{ tmpdir.path }}"
 
         always:
