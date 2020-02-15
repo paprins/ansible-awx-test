@@ -1,7 +1,6 @@
 ---
-  - name: Ping specific host
+  - name: Ping all hosts
     hosts: all
 
     tasks:
-      - name: Check if Python installed
-        raw: 'which python'
+      - ping:
