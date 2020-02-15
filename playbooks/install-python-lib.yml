@@ -1,5 +1,5 @@
 ---
-  - name: Ping all hosts
+  - name: Install Python library
     hosts: all
     gather_facts: False
 

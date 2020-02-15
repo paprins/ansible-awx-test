@@ -1,5 +1,5 @@
 ---
-  - name: Ping all hosts
+  - name: Check updates
     hosts: all
     gather_facts: False
 
