@@ -3,4 +3,5 @@
     hosts: all
 
     tasks:
-      - ping:
+      - name: Check if Python installed
+        raw: 'which python'
