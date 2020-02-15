@@ -1,0 +1,14 @@
+---
+  - name: Cleanup /tmp directory (inside docker containers)
+    hosts: all
+    gather_facts: True
+
+    tasks:
+      - name: get docker containers
+        docker_host_info:
+          containers: yes
+        register: result
+
+      - name: show output
+        debug:
+          var: result.host_info
