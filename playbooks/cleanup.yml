@@ -4,8 +4,13 @@
     gather_facts: True
 
     tasks:
-      - debug:
-          var: ansible_python_version
+      - name: Install Python3
+        yum:
+          name:
+            - python36
+            - python36-devel
+            - python36-pip
+          state: present
 
       - name: get docker containers
         docker_host_info:
