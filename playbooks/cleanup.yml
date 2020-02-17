@@ -29,11 +29,12 @@
             - docker
           executable: pip-3.6
 
+      # name: "ecs-rapidminer-agent-*-rapidminer-agent"
       - name: get docker containers
         docker_host_info:
           containers: yes
           containers_filters:
-            name: "ecs-rapidminer-agent*"
+            image: "325855013273.dkr.ecr.eu-central-1.amazonaws.com/rapidminer-agent:*"
         register: result
 
       - name: show output
