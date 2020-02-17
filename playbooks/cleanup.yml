@@ -50,24 +50,30 @@
           container_id: "{{ result.containers.0.Id }}"
           container_name: "{{ result.containers.0.Names.0 | regex_replace('^\\/', '')}}"
 
+      # FIXME: make `docker_exec` work! In the mean time, use the `command` module.
       # - name: cleanup /tmp directory _inside_ docker container
       #   docker_exec:
       #     name: "{{ container_name }}"
       #     command: bash -c '/usr/bin/find /tmp/wsdl* -type f -atime +1 -exec rm -f {} \; 2>/dev/null'
       #   register: out
 
-      - name: cleanup /tmp directory _inside_ docker container
+      - name: cleanup /tmp directory _inside_ docker container.
         command: docker exec -ti {{ container_id }} bash -c "du -h --exclude=./mnt --exclude=./proc --max-depth=1 . | grep '[0-9]G\>\' | sort -hr"
+        changed_when: False
         register: out
       
-      - debug:
-          var: out
+      - assert:
+          that:
+            - not out.failed
+          fail_msg: "Unable to clean /tmp directory inside container {{ container_name }} on host {{ inventory_hostname }}."
 
-      - name: cleanup /tmp directory _inside_ docker container
+      - name: get size diskfree _inside_ docker container.
         command: docker exec -ti {{ container_id }} bash -c "df -h /"
+        changed_when: False
         register: out
 
       - debug:
-          var: out
+          var: out.stdout_lines
+        when: not out.failed
 
 
