@@ -47,7 +47,7 @@
           fail_msg: "Expecting only 1 (one) {{ rapidminer.agent_container }} container."
 
       - set_fact:
-          container_id: result.containers.0.Id
+          container_id: "{{ result.containers.0.Id }}"
 
       - debug:
           var: container_id
