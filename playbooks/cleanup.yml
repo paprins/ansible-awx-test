@@ -54,11 +54,11 @@
       # - name: cleanup /tmp directory _inside_ docker container
       #   docker_exec:
       #     name: "{{ container_name }}"
-      #     command: bash -c '/usr/bin/find /tmp/wsdl* -type f -atime +1 -exec rm -f {} \; 2>/dev/null'
+      #     command: bash -c '/usr/bin/find /tmp/* -type f -atime +1 -exec rm -f {} \; 2>/dev/null'
       #   register: out
 
       - name: cleanup /tmp directory _inside_ docker container.
-        command: docker exec -ti {{ container_id }} bash -c "du -h --exclude=./mnt --exclude=./proc --max-depth=1 . | grep '[0-9]G\>\' | sort -hr"
+        command: docker exec -ti {{ container_id }} bash -c '/usr/bin/find /tmp/* -type f -atime +1 -exec rm -f {} \; 2>/dev/null'
         changed_when: False
         register: out
       
