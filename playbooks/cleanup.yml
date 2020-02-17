@@ -5,13 +5,20 @@
     gather_facts: True
 
     tasks:
-      - name: Install Python3
-        yum:
-          name:
-            - python36
-            - python36-devel
-            - python36-pip
-          state: present
+      - name: fix python2 -> python3 (if necessary)
+        block:
+          - name: install python3
+            yum:
+              name:
+                - python36
+                - python36-devel
+                - python36-pip
+              state: present
+
+          - name: set Python interpreter
+            set_fact:
+              ansible_python_interpreter: "/usr/bin/python3"
+        when: ansible_python_version | version('3', '<')
 
       - name: get docker containers
         docker_host_info:
