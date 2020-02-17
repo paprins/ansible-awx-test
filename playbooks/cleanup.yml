@@ -12,7 +12,7 @@
               name:
                 - python36
                 - python36-devel
-                - python36-pip
+                - python36-tools
               state: present
 
           - name: set Python interpreter
@@ -27,7 +27,7 @@
         pip:
           name:
             - docker
-          executable: "{{ ansible_python_interpreter }} -m pip" 
+          executable: pip-3.6
 
       - name: get docker containers
         docker_host_info:
