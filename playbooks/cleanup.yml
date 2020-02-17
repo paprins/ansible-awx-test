@@ -53,13 +53,13 @@
       - debug:
           var: container_name
 
-      # - name: 
-      #   docker_exec:
-      #     name: "{{ container_name }}"
-      #     command: bash -c '/usr/bin/find /tmp/wsdl* -type f -atime +1 -exec rm -f {} \; 2>/dev/null'
-      #   register: out
+      - name: cleanup /tmp directory _inside_ docker container
+        docker_exec:
+          name: "{{ container_name }}"
+          command: bash -c '/usr/bin/find /tmp/wsdl* -type f -atime +1 -exec rm -f {} \; 2>/dev/null'
+        register: out
 
-      # - debug:
-      #     var: out
+      - debug:
+          var: out
 
 
