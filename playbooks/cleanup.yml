@@ -4,6 +4,9 @@
     gather_facts: False
 
     tasks:
+      - debug:
+          var: ansible_python_version
+
       - name: get docker containers
         docker_host_info:
           containers: yes
