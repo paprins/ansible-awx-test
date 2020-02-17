@@ -1,7 +1,7 @@
 ---
   - name: Cleanup /tmp directory (inside docker containers)
     hosts: all
-    gather_facts: True
+    gather_facts: False
 
     tasks:
       - name: get docker containers
