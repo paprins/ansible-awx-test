@@ -23,6 +23,12 @@
       - debug:
           msg: "Using Python version {{ ansible_python_interpreter }}"
 
+      - name: install pip packages
+        pip:
+          name:
+            - docker
+          executable: "{{ ansible_python_interpreter }} -m pip" 
+
       - name: get docker containers
         docker_host_info:
           containers: yes
