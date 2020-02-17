@@ -20,6 +20,9 @@
               ansible_python_interpreter: "/usr/bin/python3"
         when: ansible_python_version is version('3', '<')
 
+      - debug:
+          msg: "Using Python version {{ ansible_python_interpreter }}"
+
       - name: get docker containers
         docker_host_info:
           containers: yes
