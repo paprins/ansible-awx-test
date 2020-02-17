@@ -33,7 +33,7 @@
         docker_host_info:
           containers: yes
           containers_filters:
-            label: "label=com.amazonaws.ecs.container-name=rapidminer-agent"
+            label: "com.amazonaws.ecs.container-name=rapidminer-agent"
         register: result
 
       - name: show output
