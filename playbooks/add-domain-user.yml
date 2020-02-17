@@ -4,7 +4,7 @@
     gather_facts: True
 
     tasks:
-      - windows_domain_user:
+      - win_domain_user:
           name: johndoe
           firstname: John
           surname: Doe
