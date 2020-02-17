@@ -5,10 +5,10 @@
 
     tasks:
       - win_domain_user:
-          name: full_name | default("{{(firstname + surname) | lower}}")
-          firstname: firstname
-          surname: surname
-          email: email | default(omit)
-          password: password
+          name: "{{ full_name | default((firstname + surname) | lower) }}"
+          firstname: "{{ firstname }}"
+          surname: "{{ surname }}"
+          email: "{{ email | default(omit) }}"
+          password: "{{ password }}"
           groups:
             - Domain Users
