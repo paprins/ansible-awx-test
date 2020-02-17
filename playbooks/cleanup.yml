@@ -48,8 +48,18 @@
 
       - set_fact:
           container_id: "{{ result.containers.0.Id }}"
+          container_name: "{{ result.containers.0.Names.0 | regex_replace('^\\/', '')}}"
 
       - debug:
-          var: container_id
+          var: container_name
+
+      # - name: 
+      #   docker_exec:
+      #     name: "{{ container_name }}"
+      #     command: bash -c '/usr/bin/find /tmp/wsdl* -type f -atime +1 -exec rm -f {} \; 2>/dev/null'
+      #   register: out
+
+      # - debug:
+      #     var: out
 
 
