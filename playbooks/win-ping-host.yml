@@ -5,3 +5,6 @@
 
     tasks:
       - win_ping:
+
+      - debug:
+          var: hostvars[inventory_hostname]
