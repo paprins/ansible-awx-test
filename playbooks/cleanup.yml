@@ -32,7 +32,7 @@
       - name: get docker containers
         docker_host_info:
           containers: yes
-          container_filters:
+          containers_filters:
             name: "ecs-rapidminer-agent*"
         register: result
 
