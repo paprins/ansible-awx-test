@@ -38,4 +38,4 @@
 
       - name: show output
         debug:
-          var: result.host_info
+          var: result.containers
