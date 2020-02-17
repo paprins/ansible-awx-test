@@ -1,7 +1,20 @@
 ---
-  - name: Check updates
+  - name: Install latest security updates.
     hosts: all
+    become: True
     gather_facts: False
 
     tasks:
-      - ping:
+      - name: list security updates
+        yum:
+          list: security
+        register: result
+
+      - debug:
+          var: result
+
+      - name: install security updates
+        yum:
+          name: '*'
+          security: yes
+          state: latest
