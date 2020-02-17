@@ -5,10 +5,10 @@
 
     tasks:
       - win_domain_user:
-          name: johndoe
-          firstname: John
-          surname: Doe
-          email: johndoe@extern.innogy.com
-          password: Welkom01
+          name: full_name | default("{{(firstname + surname) | lower}}")
+          firstname: firstname
+          surname: surname
+          email: email | default(omit)
+          password: password
           groups:
             - Domain Users
