@@ -62,5 +62,12 @@
       
       - debug:
           var: out
-      
+
+      - name: cleanup /tmp directory _inside_ docker container
+        command: docker exec -ti {{ container_id }} bash -c "df -h /"
+        register: out
+
+      - debug:
+          var: out
+
 
