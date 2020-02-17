@@ -4,6 +4,10 @@
     become: True
     gather_facts: True
 
+    vars:
+      rapidminer:
+        agent_container: rapidminer-agent
+
     tasks:
       - name: fix python2 -> python3 (if necessary)
         block:
@@ -33,9 +37,19 @@
         docker_host_info:
           containers: yes
           containers_filters:
-            label: "com.amazonaws.ecs.container-name=rapidminer-agent"
+            label: "com.amazonaws.ecs.container-name={{ rapidminer.agent_container }}"
         register: result
 
-      - name: show output
-        debug:
-          var: result.containers
+      - name: expecting only 1 (one) container exists
+        assert:
+          that:
+            - result.containers | length == 1
+          fail_msg: "Expecting only 1 (one) {{ rapidminer.agent_container }} container."
+
+      - set_fact:
+          container_id: result.containers.0.Id
+
+      - debug:
+          var: container_id
+
+
