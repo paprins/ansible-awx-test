@@ -21,3 +21,4 @@
           enabled: "{{ enable_user|default('yes')|bool }}"
           groups:
             - Domain Users
+          groups_action: add
