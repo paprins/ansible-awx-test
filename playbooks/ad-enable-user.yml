@@ -8,4 +8,4 @@
         win_domain_user:
           name: "{{ ad_username }}"
           state: present
-          enable: "{{ ad_user_enable|default('no')|bool }}"
+          enabled: "{{ ad_user_enable|default('no')|bool }}"
