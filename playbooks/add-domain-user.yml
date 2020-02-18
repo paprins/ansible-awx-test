@@ -10,9 +10,6 @@
       - set_fact:
           account_name: "{{ full_name | default((firstname + surname) | replace(' ','') | lower) }}"
 
-      - debug:
-          var: account_name
-
       - win_domain_user:
           name: "{{ account_name }}"
           firstname: "{{ firstname }}"
