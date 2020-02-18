@@ -3,12 +3,20 @@
     hosts: all
     gather_facts: True
 
+    vars:
+      group_domain_name: "resources.bda.innogy.com"
+
     tasks:
+      - set_fact:
+          account_name: "{{ full_name | default((firstname + surname) | map('trim') | lower) }}"
+
       - win_domain_user:
-          name: "{{ full_name | default((firstname + surname) | lower) }}"
+          name: "{{ account_name }}"
           firstname: "{{ firstname }}"
           surname: "{{ surname }}"
+          upn: "{{ account_name }}@{{ group_domain_name }}"
           email: "{{ email | default(omit) }}"
           password: "{{ password }}"
+          password_never_expires: "{{ password_never_expires|default('yes')|bool }}"
           groups:
             - Domain Users
