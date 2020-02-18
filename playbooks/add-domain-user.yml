@@ -18,7 +18,7 @@
           email: "{{ email | default(omit) }}"
           password: "{{ password }}"
           password_never_expires: "{{ password_never_expires|default('yes')|bool }}"
-          enabled: "{{ enable_user|default('yes')|bool }}"
+          enabled: "{{ ad_user_enabled|default('yes')|bool }}"
           groups:
             - Domain Users
           groups_action: add
