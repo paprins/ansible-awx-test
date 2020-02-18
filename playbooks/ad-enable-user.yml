@@ -1,0 +1,11 @@
+---
+  - name: Enable AD user
+    hosts: all
+    gather_facts: True
+
+    tasks:
+      - name: Enable (or disable) user.
+        win_domain_user:
+          name: "{{ ad_username }}"
+          state: present
+          enable: "{{ ad_user_enable|default('no')|bool }}"
