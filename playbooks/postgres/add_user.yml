@@ -1,5 +1,5 @@
 ---
-  - name: Add user to Postgres database
+  - name: Create new user and (optionally) create database.
     hosts: all
     gather_facts: false
 
