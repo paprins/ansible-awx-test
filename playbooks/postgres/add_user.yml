@@ -10,14 +10,11 @@
         register:
           rds_instance
 
-      - debug:
-          var: rds_instance
-
       - name: set rds endpoint
         set_fact:
           host_db: "{{ item.address }}"
           host_port: "{{ item.port }}"
-        loop: "{{ rds_metadata.instances|map(attribute='endpoint')|list }}"
+        loop: "{{ rds_instance.instances|map(attribute='endpoint')|list }}"
 
       - debug:
           var: host_db
