@@ -19,16 +19,15 @@
           db_port: "{{ item.port }}"
         loop: "{{ rds_instance.instances|map(attribute='endpoint')|list }}"
 
-      - debug:
-          var: db_host
-
-      - debug:
-          var: db_port
+      - assert:
+          that:
+            - db_host is defined
       
       - name: check if user already exists
         postgresql_query:
           login_host: "{{ db_host }}"
-          login_port: "{{ db_port }}"
+          login_port: "{{ db_port|default(5432) }}"
+          login_db: "postgres"
           login_user: "{{ db_admin_user }}"
           login_password: "{{ db_admin_password }}"
           query: |
