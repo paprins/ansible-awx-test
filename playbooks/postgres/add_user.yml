@@ -10,12 +10,21 @@
         register:
           rds_instance
 
+      - debug:
+          var: rds_instance.instances
+
       - name: set rds endpoint
         set_fact:
           db_host: "{{ item.address }}"
           db_port: "{{ item.port }}"
         loop: "{{ rds_instance.instances|map(attribute='endpoint')|list }}"
 
+      - debug:
+          var: db_host
+
+      - debug:
+          var: db_port
+      
       - name: check if user already exists
         postgresql_query:
           login_host: "{{ db_host }}"
