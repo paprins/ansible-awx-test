@@ -19,7 +19,8 @@
           db_port: "{{ item.port }}"
         loop: "{{ rds_instance.instances|map(attribute='endpoint')|list }}"
 
-      - assert:
+      - name: assert that rds instance can be found using incoming identifier
+        assert:
           that:
             - db_host is defined
       
@@ -35,8 +36,11 @@
             where usename = '{{ new_db_user }}'
         register: db_query_result
 
-      - debug:
-          var: db_query_result
+      - name: assert that new username does not exist in db
+        assert:
+          that:
+            - db_query_result.rowcount == 0
+          fail_msg: "User {{ new_db_user }} already exists in {{ db_instance_identifier }}"
 
       # - name: Add user
       #   postgresql_user:
