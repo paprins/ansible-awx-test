@@ -42,11 +42,48 @@
           fail_msg: "User {{ new_db_user }} already exists in {{ db_instance_identifier }}"
           quiet: true
 
-      # - name: Add user
-      #   postgresql_user:
-      #     login_host: "{{ db_host }}"
-      #     login_port: "{{ db_port }}"
-      #     login_user: "{{ db_admin_user }}"
-      #     login_password: "{{ db_admin_password }}"
-      #     name: "{{ new_db_user }}"
-      #     password: "{{ new_db_user_password }}"
+      - name: optionally create database (only when 'db_name' is defined)
+        postgresql_db:
+          login_host: "{{ db_host }}"
+          login_port: "{{ db_port|default(5432) }}"
+          login_user: "{{ db_admin_user }}"
+          login_password: "{{ db_admin_password }}"
+          encoding: "en_US.UTF-8"
+          name: "{{ db_name }}"
+          state: present
+        when: db_name
+
+      - name: create new database user
+        postgresql_user:
+          login_host: "{{ db_host }}"
+          login_port: "{{ db_port|default(5432) }}"
+          login_user: "{{ db_admin_user }}"
+          login_password: "{{ db_admin_password }}"
+          name: "{{ new_db_user }}"
+          password: "{{ new_db_user_password }}"
+          state: present
+
+      - name: grant database owner public schema privileges      
+        postgresql_privs:
+          login_host: "{{ db_host }}"
+          login_port: "{{ db_port|default(5432) }}"
+          login_user: "{{ db_admin_user }}"
+          login_password: "{{ db_admin_password }}"
+          obj: public
+          privs: ALL
+          roles: "{{ new_db_user }}"
+          state: present
+          type: schema
+
+      - name: grant all privileges on database to owner
+        postgresql_privs:
+          login_host: "{{ db_host }}"
+          login_port: "{{ db_port|default(5432) }}"
+          login_user: "{{ db_admin_user }}"
+          login_password: "{{ db_admin_password }}"
+          database: "{{ db_name }}"
+          state: present
+          privs: ALL
+          type: database
+          role: "{{ new_db_user }}"
+        when: db_name
