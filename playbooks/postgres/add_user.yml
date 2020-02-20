@@ -12,19 +12,30 @@
 
       - name: set rds endpoint
         set_fact:
-          host_db: "{{ item.address }}"
-          host_port: "{{ item.port }}"
+          db_host: "{{ item.address }}"
+          db_port: "{{ item.port }}"
         loop: "{{ rds_instance.instances|map(attribute='endpoint')|list }}"
 
       - debug:
-          var: host_db
+          var: db_host
 
       - debug:
-          var: host_port
+          var: db_port
 
-      # - name: Add user
-      #   postgresql_user:
-      #     login_user:
-      #     login_password: 
-      #     name: "{{ new_db_user }}"
-      #     password: "{{ new_db_user_password }}"
+      - name: check if user already exists
+        postgresql_query:
+          login_host: "{{ db_host }}"
+          login_port: "{{ db_port }}"
+          login_user: "{{ db_admin_user }}"
+          login_password: "{{ db_admin_password }}"
+          query: |
+            select * from pg_users
+
+      - name: Add user
+        postgresql_user:
+          login_host: "{{ db_host }}"
+          login_port: "{{ db_port }}"
+          login_user: "{{ db_admin_user }}"
+          login_password: "{{ db_admin_password }}"
+          name: "{{ new_db_user }}"
+          password: "{{ new_db_user_password }}"
