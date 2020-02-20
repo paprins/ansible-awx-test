@@ -23,24 +23,24 @@
           fail_msg: "RDS instance {{ db_instance_identifier }} not found."
           quiet: true
       
-      - name: check if user already exists
-        postgresql_query:
-          login_host: "{{ db_host }}"
-          login_port: "{{ db_port|default(5432) }}"
-          login_db: "postgres"
-          login_user: "{{ db_admin_user }}"
-          login_password: "{{ db_admin_password }}"
-          query: |
-            select * from pg_user
-            where usename = '{{ new_db_user }}'
-        register: db_query_result
+      # - name: check if user already exists
+      #   postgresql_query:
+      #     login_host: "{{ db_host }}"
+      #     login_port: "{{ db_port|default(5432) }}"
+      #     login_db: "postgres"
+      #     login_user: "{{ db_admin_user }}"
+      #     login_password: "{{ db_admin_password }}"
+      #     query: |
+      #       select * from pg_user
+      #       where usename = '{{ new_db_user }}'
+      #   register: db_query_result
 
-      - name: assert that new username does not exist in db
-        assert:
-          that:
-            - db_query_result.rowcount == 0
-          fail_msg: "User {{ new_db_user }} already exists in {{ db_instance_identifier }}"
-          quiet: true
+      # - name: assert that new username does not exist in db
+      #   assert:
+      #     that:
+      #       - db_query_result.rowcount == 0
+      #     fail_msg: "User {{ new_db_user }} already exists in {{ db_instance_identifier }}"
+      #     quiet: true
 
       - name: optionally create database (only when 'db_name' is defined)
         postgresql_db:
