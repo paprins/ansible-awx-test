@@ -1,0 +1,17 @@
+---
+  - name: Add user to Postgres database
+    hosts: all
+    gather_facts: false
+
+    tasks:
+      - name: fetch rds info
+        rds_instance_info:
+          db_instance_identifier: "{{ db_instance_identifier }}"
+        register:
+          rds_instance
+
+      - debug:
+          var: rds_instance
+
+      # - name: Add user
+      #   postgresql_user:
