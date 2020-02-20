@@ -51,7 +51,7 @@
           encoding: "en_US.UTF-8"
           name: "{{ db_name }}"
           state: present
-        when: db_name
+        when: db_name is defined
 
       - name: create new database user
         postgresql_user:
@@ -86,4 +86,4 @@
           privs: ALL
           type: database
           role: "{{ new_db_user }}"
-        when: db_name
+        when: db_name is defined
