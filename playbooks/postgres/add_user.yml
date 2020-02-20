@@ -16,12 +16,6 @@
           db_port: "{{ item.port }}"
         loop: "{{ rds_instance.instances|map(attribute='endpoint')|list }}"
 
-      - debug:
-          var: db_host
-
-      - debug:
-          var: db_port
-
       - name: check if user already exists
         postgresql_query:
           login_host: "{{ db_host }}"
@@ -30,12 +24,16 @@
           login_password: "{{ db_admin_password }}"
           query: |
             select * from pg_users
+        register: db_query_result
 
-      - name: Add user
-        postgresql_user:
-          login_host: "{{ db_host }}"
-          login_port: "{{ db_port }}"
-          login_user: "{{ db_admin_user }}"
-          login_password: "{{ db_admin_password }}"
-          name: "{{ new_db_user }}"
-          password: "{{ new_db_user_password }}"
+      - debug:
+          var: db_query_result
+
+      # - name: Add user
+      #   postgresql_user:
+      #     login_host: "{{ db_host }}"
+      #     login_port: "{{ db_port }}"
+      #     login_user: "{{ db_admin_user }}"
+      #     login_password: "{{ db_admin_password }}"
+      #     name: "{{ new_db_user }}"
+      #     password: "{{ new_db_user_password }}"
