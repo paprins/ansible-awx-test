@@ -59,6 +59,7 @@
           login_port: "{{ db_port|default(5432) }}"
           login_user: "{{ db_admin_user }}"
           login_password: "{{ db_admin_password }}"
+          database: "{{ db_name|(default('postgres')) }}"
           name: "{{ new_db_user }}"
           password: "{{ new_db_user_password }}"
           state: present
