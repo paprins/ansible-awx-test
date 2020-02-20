@@ -70,6 +70,7 @@
           login_port: "{{ db_port|default(5432) }}"
           login_user: "{{ db_admin_user }}"
           login_password: "{{ db_admin_password }}"
+          database: "{{ db_name|default('postgres') }}"
           obj: public
           privs: ALL
           roles: "{{ new_db_user }}"
