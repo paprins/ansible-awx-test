@@ -48,7 +48,7 @@
           login_port: "{{ db_port|default(5432) }}"
           login_user: "{{ db_admin_user }}"
           login_password: "{{ db_admin_password }}"
-          encoding: "en_US.UTF-8"
+          encoding: "UTF8"
           name: "{{ db_name }}"
           state: present
         when: db_name is defined
