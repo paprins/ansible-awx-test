@@ -43,7 +43,12 @@
           login_db: "postgres"
           name: "{{ new_db_user }}"
           password: "{{ new_db_user_password }}"
+          no_password_changes: yes
           state: present
+        register: out_pg_user
+
+      - debug:
+          var: out_pg_user
 
       - name: grant database owner public schema privileges      
         postgresql_privs:
