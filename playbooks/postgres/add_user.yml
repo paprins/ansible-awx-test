@@ -13,5 +13,21 @@
       - debug:
           var: rds_instance
 
+      - name: set rds endpoint
+        set_fact:
+          host_db: "{{ item.address }}"
+          host_port: "{{ item.port }}"
+        loop: "{{ rds_metadata.instances|map(attribute='endpoint')|list }}"
+
+      - debug:
+          var: host_db
+
+      - debug:
+          var: host_port
+
       # - name: Add user
       #   postgresql_user:
+      #     login_user:
+      #     login_password: 
+      #     name: "{{ new_db_user }}"
+      #     password: "{{ new_db_user_password }}"
